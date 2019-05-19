@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import {
     CategoryActions,
     CategoryActionTypes,
-  } from '../actions/categoryActions';
+  } from './actions';
 
 // Define the Category type 
 export interface ICategory {

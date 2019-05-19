@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { IAppState } from '../../store/Store';
-import { ICategory } from '../../reducers/categoryReducer';
+import { IAppState } from '../../../store/Store';
+import { ICategory } from '../reducer';
 
 // Create the containers interface
 interface IProps {

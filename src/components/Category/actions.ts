@@ -4,10 +4,10 @@ import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
 
 // Import Category Typing
-import { ICategory, ICategoryState } from '../reducers/categoryReducer';
+import { ICategory, ICategoryState } from './reducer';
 
 // Import apiURL from store
-import { apiURL } from '../store/Store'
+import { apiURL } from '../../store/Store'
 
 // Create Action Constants
 export enum CategoryActionTypes {

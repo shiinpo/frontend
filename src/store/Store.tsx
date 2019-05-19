@@ -17,7 +17,7 @@ import thunk from 'redux-thunk';
 import {
     categoryReducer,
     ICategoryState,
-} from '../reducers/categoryReducer';
+} from '../components/Category/reducer';
 
 // Create an interface for the application state
 export interface IAppState {

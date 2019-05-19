@@ -14,7 +14,7 @@ import { ConnectedRouter } from 'connected-react-router';
 
 // Import the store function and state
 import configureStore, { IAppState, history } from './store/Store';
-import { getAllCategories } from './actions/categoryActions';
+import { getAllCategories } from './components/Category/actions';
 
 import './index.css';
 import App from './components/App';

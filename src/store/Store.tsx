@@ -21,6 +21,10 @@ export interface IAppState {
     categoryState: ICategoryState;
 }
 
+// Create variable to hold api url for request
+const apiURL:string = process.env.REACT_APP_API_URL || "";
+export { apiURL };
+
 // Create the root reducer
 const rootReducer = combineReducers<IAppState>({
     categoryState: categoryReducer,

@@ -6,6 +6,9 @@ import axios from 'axios';
 // Import Category Typing
 import { ICategory, ICategoryState } from '../reducers/categoryReducer';
 
+// Import apiURL from store
+import { apiURL } from '../store/Store'
+
 // Create Action Constants
 export enum CategoryActionTypes {
     GET_ALL = 'GET_ALL',
@@ -30,7 +33,7 @@ export const getAllCategories: ActionCreator<
 > = () => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.get('http://localhost:9001/category/all');
+      const response = await axios.get(`${apiURL}/category/all`);
       dispatch({
         categories: response.data,
         type: CategoryActionTypes.GET_ALL,

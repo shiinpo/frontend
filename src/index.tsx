@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import { Store } from 'redux';
 
 import { withRouter } from 'react-router-dom';
-import { connectRouter, routerMiddleware, ConnectedRouter } from 'connected-react-router';
+import { ConnectedRouter } from 'connected-react-router';
 
 // Import the store function and state
 import configureStore, { IAppState, history } from './store/Store';

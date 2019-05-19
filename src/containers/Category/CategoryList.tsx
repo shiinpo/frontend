@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { IAppState } from '../store/Store';
-import { ICategory } from '../reducers/categoryReducer';
+import { IAppState } from '../../store/Store';
+import { ICategory } from '../../reducers/categoryReducer';
 
 // Create the containers interface
 interface IProps {
@@ -13,7 +13,6 @@ class CategoryList extends React.Component<IProps> {
     const { categories } = this.props;
     return (
       <div className="name-container">
-      <h1>Exercise Categories</h1>
         {categories &&
           categories.map(category => {
             return (

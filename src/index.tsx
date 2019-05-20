@@ -41,7 +41,7 @@ const Root: React.SFC<IProps> = props => {
 
 // Generate the store
 const store = configureStore();
-store.dispatch(getAllCategories());
+// store.dispatch(getAllCategories());
 
 // Render the App
 ReactDOM.render(<Root store={store} />, document.getElementById(

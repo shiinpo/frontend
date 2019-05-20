@@ -12,6 +12,7 @@ import Register from './Auth/Register';
 
 
 const App: React.SFC<{}> = (props:any) => {
+  console.log(props);
   const AuthCategory = RequireAuth(Category);
 
   const NotAuthLogin = RequireNotAuth(Login);
@@ -19,7 +20,7 @@ const App: React.SFC<{}> = (props:any) => {
 
   return (
     <>
-      <NavigationBar />
+      <NavigationBar push={props.history.push}/>
       <Switch>
         {/* Landing and Auth routes */}
         <Route path="/" component={Landing} exact/>

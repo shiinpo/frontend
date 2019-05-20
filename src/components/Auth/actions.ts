@@ -48,7 +48,7 @@ export interface IAuthLogoutAction {
     type: AuthActionTypes.LOGOUT;
 }
 
-export interface IDecodeToken {
+export interface IDecodedToken {
     email: string,
     exp: number,
     id: number,
@@ -81,7 +81,8 @@ export const login: ActionCreator<ThunkAction<Promise<any>, IAuthState, null, IA
                 const { token } = response.data;
 
                 localStorage.setItem('token', token);
-                const decoded:IDecodeToken = jwtDecode(token);
+
+                const decoded:IDecodedToken = jwtDecode(token);
                 const { username, email, id } = decoded;
 
                 dispatch({
@@ -102,3 +103,18 @@ export const login: ActionCreator<ThunkAction<Promise<any>, IAuthState, null, IA
         }
     };
 };
+
+export const logout = () => {
+    localStorage.removeItem("token")
+    return ({ type: AuthActionTypes.LOGOUT })
+}
+
+export const setUserInfo = (userInfo:IDecodedToken) => {
+    const { username, email, id } = userInfo;
+    return {
+        type: AuthActionTypes.LOGIN_SUCCESFUL,
+        username,
+        email,
+        id
+    };
+}

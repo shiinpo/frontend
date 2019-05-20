@@ -4,10 +4,10 @@ import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
 
 // Import Category Typing
-import { ICategory, ICategoryState } from '../reducers/categoryReducer';
+import { ICategory, ICategoryState } from './reducer';
 
 // Import apiURL from store
-import { apiURL } from '../store/Store'
+import { apiURL } from '../../store/Store'
 
 // Create Action Constants
 export enum CategoryActionTypes {
@@ -33,7 +33,15 @@ export const getAllCategories: ActionCreator<
 > = () => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.get(`${apiURL}/category/all`);
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${apiURL}/category/all`,
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      );
       dispatch({
         categories: response.data,
         type: CategoryActionTypes.GET_ALL,

@@ -22,12 +22,17 @@ import {
     authReducer,
     IAuthState,
 } from '../components/Auth/reducer';
+import {
+    progressReducer,
+    IProgressState,
+} from '../components/Progress/reducer';
 
 // Create an interface for the application state
 export interface IAppState {
     auth: IAuthState,
     categoryState: ICategoryState,
     router: RouterState,
+    progress: IProgressState,
 }
 
 const history = createBrowserHistory();
@@ -41,6 +46,7 @@ const rootReducer = combineReducers<IAppState>({
     auth: authReducer,
     categoryState: categoryReducer,
     router: connectRouter(history),
+    progress: progressReducer,
 });
 
 // Create a configure store function of type `IAppState`

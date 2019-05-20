@@ -47,7 +47,7 @@ export const authReducer: Reducer<IAuthState, AuthActions> = (
             return {
                 ...state,
                 username: action.username,
-                email: action.username,
+                email: action.email,
                 id: action.id,
                 jwt: true,
                 loading: false,

@@ -2,6 +2,7 @@
 import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 // Import apiURL from store
 import { apiURL } from '../../store/Store'
@@ -47,6 +48,12 @@ export interface IAuthLogoutAction {
     type: AuthActionTypes.LOGOUT;
 }
 
+export interface IDecodeToken {
+    email: string,
+    exp: number,
+    id: number,
+    username: string,
+}
 
 
 /* 
@@ -68,22 +75,22 @@ export const login: ActionCreator<ThunkAction<Promise<any>, IAuthState, null, IA
             const response = await axios.post(
                 `${apiURL}/login`, 
                 { username, password },
-                {
-                    withCredentials: true,
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                }
             );
 
             if (response.status === 200) {
-                const { username, email, id } = response.data;
+                const { token } = response.data;
+
+                localStorage.setItem('token', token);
+                const decoded:IDecodeToken = jwtDecode(token);
+                const { username, email, id } = decoded;
+
                 dispatch({
-                type: AuthActionTypes.LOGIN_SUCCESFUL,
-                username,
-                email,
-                id
+                    type: AuthActionTypes.LOGIN_SUCCESFUL,
+                    username,
+                    email,
+                    id
                 });
+
             } else {
                 dispatch({
                     type: AuthActionTypes.LOGIN_FAILURE,

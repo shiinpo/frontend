@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { login } from '../Auth/actions';
+import { login } from '../actions';
 import Form from './Form';
 export interface IAppProps {
   login: any

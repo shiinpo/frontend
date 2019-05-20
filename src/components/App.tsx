@@ -3,7 +3,7 @@ import '../App.css';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import Category from './Category';
-import Login from './Login';
+import Login from './Auth/Login';
 import Landing from './Landing';
 import RequireAuth from './Auth/RequireAuth'
 import RequireNotAuth from './Auth/RequireNotAuth'

@@ -22,7 +22,7 @@ const initialAuthState: IAuthState = {
     jwt: false,
 }
 
-export const AuthReducer: Reducer<IAuthState, AuthActions> = (
+export const authReducer: Reducer<IAuthState, AuthActions> = (
     state = initialAuthState,
     action
 ) => {
@@ -37,12 +37,12 @@ export const AuthReducer: Reducer<IAuthState, AuthActions> = (
             return {
                 ...initialAuthState
             }
-        };
+        }
         case AuthActionTypes.LOGIN_FAILURE: {
             return {
                 ...initialAuthState
             }
-        };
+        }
         case AuthActionTypes.LOGIN_SUCCESFUL: {
             return {
                 ...state,
@@ -52,7 +52,7 @@ export const AuthReducer: Reducer<IAuthState, AuthActions> = (
                 jwt: true,
                 loading: false,
             }
-        };
+        }
         default:
             return state;
     }

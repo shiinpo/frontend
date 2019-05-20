@@ -5,7 +5,9 @@ import axios from 'axios';
 
 // Import apiURL from store
 import { apiURL } from '../../store/Store'
-import { Interface } from 'readline';
+
+// Import Auth Typing
+import { IAuthState } from './reducer';
 
 // Create Action Constants
 export enum AuthActionTypes {
@@ -56,3 +58,40 @@ export type AuthActions =
     | IAuthLoginSuccessAction 
     | IAuthLoginFailureAction 
     | IAuthLogoutAction;
+
+/* Login Action Creator
+<Promise<Return Type>, State Interface, Type of Param, Type of Action> */
+export const login: ActionCreator<ThunkAction<Promise<any>, IAuthState, null, IAuthLoginSuccessAction>
+> = (username:string, password:string) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            const response = await axios.post(
+                `${apiURL}/login`, 
+                { username, password },
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+
+            if (response.status === 200) {
+                const { username, email, id } = response.data;
+                dispatch({
+                type: AuthActionTypes.LOGIN_SUCCESFUL,
+                username,
+                email,
+                id
+                });
+            } else {
+                dispatch({
+                    type: AuthActionTypes.LOGIN_FAILURE,
+                });
+            }
+
+        } catch (err) {
+            console.error(err);
+        }
+    };
+};

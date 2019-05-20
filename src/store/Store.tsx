@@ -18,9 +18,14 @@ import {
     categoryReducer,
     ICategoryState,
 } from '../components/Category/reducer';
+import {
+    authReducer,
+    IAuthState,
+} from '../components/Auth/reducer';
 
 // Create an interface for the application state
 export interface IAppState {
+    auth: IAuthState,
     categoryState: ICategoryState,
     router: RouterState,
 }
@@ -33,6 +38,7 @@ export { apiURL, history };
 
 // Create the root reducer
 const rootReducer = combineReducers<IAppState>({
+    auth: authReducer,
     categoryState: categoryReducer,
     router: connectRouter(history),
 });

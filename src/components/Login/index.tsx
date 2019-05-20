@@ -1,16 +1,24 @@
 import * as React from 'react';
-
+import { connect } from 'react-redux';
+import { login } from '../Auth/actions';
+import Form from './Form';
 export interface IAppProps {
 }
 
-export default class App extends React.Component<IAppProps, any> {
-  public render() {
-    return (
-      <form onSubmit={(e) => {e.preventDefault(); console.log("submitted")}}>
-        <input type="text" name="username" placeholder="username" required/>
-        <input type="password" name="password" placeholder="password" required/>
-        <button type="submit">submit</button>
-      </form>
-    );
-  }
+const Login = (props:any) =>  {
+
+  const loginUserCall = (user:string, pass:string) => props.loginUser(user, pass)
+
+  return (
+    <>
+      <Form login={loginUserCall}/>
+    </>
+  );
 }
+
+// Object of action creators
+const mapDispatchToProps = {
+  loginUser: login,
+}
+
+export default connect(null, mapDispatchToProps)(Login);

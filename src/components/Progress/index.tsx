@@ -25,7 +25,7 @@ class Progress extends React.Component<IProgressProps, any> {
                 progress.records && progress.records.map(record => {
                     return (
                         <div>
-                            { record.date_performed }
+                            { record.max }
                         </div>
                     )
                 })

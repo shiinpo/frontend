@@ -9,6 +9,7 @@ export interface IRecord{
     weight: number,
     reps: number,
     rpe: number,
+    max: number,
     date_performed: string,
     exercise_id: number,
     user_id: number

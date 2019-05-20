@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 interface IAppProps {
-    login: (x:string, y:string) => void
+    onSubmit: (x:string, y:string) => void
 }
 
 const App: React.FunctionComponent<IAppProps> = (props) => {
@@ -9,7 +9,7 @@ const App: React.FunctionComponent<IAppProps> = (props) => {
     const [password, setPassword] = React.useState<string>("");
 
     return (
-        <form onSubmit={(e) => {e.preventDefault(); props.login(username, password)}}>
+        <form onSubmit={(e) => {e.preventDefault(); props.onSubmit(username, password)}}>
             <input 
                 type="text" 
                 name="username" 

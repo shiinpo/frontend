@@ -22,6 +22,8 @@ const NavigationBar: React.FunctionComponent<INavigationProps> = (props:INavigat
         <Link to="/category">Category</Link>
         <br />
         <Link to="/">Landing</Link>
+        <br />
+        <Link to="/progress">Progress</Link>
       </>
   );
 };

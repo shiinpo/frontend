@@ -3,22 +3,21 @@ import { connect } from 'react-redux';
 import { login } from '../Auth/actions';
 import Form from './Form';
 export interface IAppProps {
+  login: any
 }
 
-const Login = (props:any) =>  {
-
-  const loginUserCall = (user:string, pass:string) => props.loginUser(user, pass)
+const Login = (props:IAppProps) =>  {
 
   return (
     <>
-      <Form login={loginUserCall}/>
+      <Form login={props.login}/>
     </>
   );
 }
 
 // Object of action creators
 const mapDispatchToProps = {
-  loginUser: login,
+  login,
 }
 
 export default connect(null, mapDispatchToProps)(Login);

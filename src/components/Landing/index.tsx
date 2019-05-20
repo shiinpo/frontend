@@ -5,10 +5,14 @@ interface ILandingProps {
 }
 
 const Landing: React.FunctionComponent<ILandingProps> = (props) => {
+
   return (
       <>
         <h1>Landing</h1>
         <Link to="/login">Login</Link>
+        <br />
+        <Link to="/category">Category</Link>
+        <div onClick={() => localStorage.removeItem("token")}>Logout</div>
       </>
   );
 };

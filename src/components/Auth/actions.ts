@@ -69,7 +69,7 @@ export type AuthActions =
 /* Login Action Creator
 <Promise<Return Type>, State Interface, Type of Param, Type of Action> */
 export const login: ActionCreator<ThunkAction<Promise<any>, IAuthState, null, IAuthLoginSuccessAction>
-> = (username:string, password:string) => {
+> = (username:string, password:string, email:string) => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: AuthActionTypes.AUTH_LOADING});
@@ -108,13 +108,13 @@ export const login: ActionCreator<ThunkAction<Promise<any>, IAuthState, null, IA
 /* Register Action Creator
 <Promise<Return Type>, State Interface, Type of Param, Type of Action> */
 export const register: ActionCreator<ThunkAction<Promise<any>, IAuthState, null, IAuthLoginSuccessAction>
-> = (username:string, password:string) => {
+> = (username:string, password:string, email:string) => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: AuthActionTypes.AUTH_LOADING});
             const response = await axios.post(
                 `${apiURL}/register`, 
-                { username, password },
+                { username, password, email },
             );
 
             if (response.status === 200) {

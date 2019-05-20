@@ -1,15 +1,17 @@
 import * as React from 'react';
 
 interface IAppProps {
-    onSubmit: (x:string, y:string) => void
+    onSubmit: (x:string, y:string, z:string) => void,
+    pathname: string
 }
 
 const App: React.FunctionComponent<IAppProps> = (props) => {
     const [username, setUsername] = React.useState<string>("");
+    const [email, setEmail] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
 
     return (
-        <form onSubmit={(e) => {e.preventDefault(); props.onSubmit(username, password)}}>
+        <form onSubmit={(e) => {e.preventDefault(); props.onSubmit(username, password, email)}}>
             <input 
                 type="text" 
                 name="username" 
@@ -18,6 +20,18 @@ const App: React.FunctionComponent<IAppProps> = (props) => {
                 onChange={(e) => setUsername(e.target.value)}
                 required
             />
+            {
+                props.pathname === "/register"
+                ?   <input 
+                        type="text" 
+                        name="email" 
+                        placeholder="email" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    /> 
+                : null
+            }
             <input 
                 type="password" 
                 name="password" 

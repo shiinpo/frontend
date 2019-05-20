@@ -8,6 +8,7 @@ import { Redirect } from 'react-router';
 export interface IAppProps {
   login: any,
   jwt: boolean,
+  pathname: string,
 }
 
 const Login = (props:IAppProps) =>  {
@@ -17,12 +18,15 @@ const Login = (props:IAppProps) =>  {
     :(
       <>
         <h1>Login</h1>
-        <Form onSubmit={props.login}/>
+        <Form onSubmit={props.login} pathname={props.pathname}/>
       </>
     );
 }
 
-const mapStateToProps = (state:IAppState) => ({jwt: state.auth.jwt})
+const mapStateToProps = (state:IAppState) => ({
+  jwt: state.auth.jwt, 
+  pathname: state.router.location.pathname
+})
 
 // Object of action creators
 const mapDispatchToProps = {

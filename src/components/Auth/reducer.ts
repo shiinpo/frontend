@@ -30,7 +30,7 @@ export const authReducer: Reducer<IAuthState, AuthActions> = (
         case AuthActionTypes.AUTH_LOADING: {
             return {
                 ...state,
-                loading: action.loading
+                loading: true
             }
         }
         case AuthActionTypes.LOGOUT: {

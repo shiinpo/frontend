@@ -72,6 +72,7 @@ export const login: ActionCreator<ThunkAction<Promise<any>, IAuthState, null, IA
 > = (username:string, password:string) => {
     return async (dispatch: Dispatch) => {
         try {
+            dispatch({ type: AuthActionTypes.AUTH_LOADING});
             const response = await axios.post(
                 `${apiURL}/login`, 
                 { username, password },

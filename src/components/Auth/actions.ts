@@ -105,6 +105,45 @@ export const login: ActionCreator<ThunkAction<Promise<any>, IAuthState, null, IA
     };
 };
 
+/* Register Action Creator
+<Promise<Return Type>, State Interface, Type of Param, Type of Action> */
+export const register: ActionCreator<ThunkAction<Promise<any>, IAuthState, null, IAuthLoginSuccessAction>
+> = (username:string, password:string) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: AuthActionTypes.AUTH_LOADING});
+            const response = await axios.post(
+                `${apiURL}/register`, 
+                { username, password },
+            );
+
+            if (response.status === 200) {
+                const { token } = response.data;
+
+                localStorage.setItem('token', token);
+
+                const decoded:IDecodedToken = jwtDecode(token);
+                const { username, email, id } = decoded;
+
+                dispatch({
+                    type: AuthActionTypes.LOGIN_SUCCESFUL,
+                    username,
+                    email,
+                    id
+                });
+
+            } else {
+                dispatch({
+                    type: AuthActionTypes.LOGIN_FAILURE,
+                });
+            }
+
+        } catch (err) {
+            console.error(err);
+        }
+    };
+};
+
 export const logout = () => {
     localStorage.removeItem("token")
     return ({ type: AuthActionTypes.LOGOUT })

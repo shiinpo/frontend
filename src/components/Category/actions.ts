@@ -33,7 +33,15 @@ export const getAllCategories: ActionCreator<
 > = () => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.get(`${apiURL}/category/all`);
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${apiURL}/category/all`,
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      );
       dispatch({
         categories: response.data,
         type: CategoryActionTypes.GET_ALL,

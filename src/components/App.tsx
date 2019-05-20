@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../App.css';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Category from './Category';
 import Login from './Auth/Login';
@@ -12,22 +12,22 @@ import Register from './Auth/Register';
 
 
 const App: React.SFC<{}> = (props:any) => {
-  console.log(props);
   const AuthCategory = RequireAuth(Category);
 
   const NotAuthLogin = RequireNotAuth(Login);
   const NotAuthRegister = RequireNotAuth(Register);
+
   return (
     <>
       <NavigationBar />
       <Switch>
         {/* Landing and Auth routes */}
         <Route path="/" component={Landing} exact/>
-        <Route path="/login" component={NotAuthLogin} exact/>
-        <Route path="/Register" component={NotAuthRegister} exact/>
+        <Route path="/login" component={NotAuthLogin}/>
+        <Route path="/register" component={NotAuthRegister}/>
         
         {/* Protected Routes */}
-        <Route path="/category" component={AuthCategory} exact/>
+        <Route path="/category" component={AuthCategory}/>
       </Switch>
     </>
   );

@@ -4,7 +4,7 @@ import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
 
 // Import Record, Progress Typing
-import { IRecord, IProgressState } from './reducer';
+import { IRecord, IProgressState, IExercise } from './reducer';
 
 // Import apiURL from store
 import { apiURL } from '../../store/Store'
@@ -12,6 +12,7 @@ import { apiURL } from '../../store/Store'
 // Create Action Constants
 export enum ProgressActionTypes {
     GET_ALL = 'GET_ALL',
+    GET_ALL_EX = 'GET_ALL_EX'
 }
 
 // Interface for Get All Action Type
@@ -20,11 +21,16 @@ export interface IRecordGetAllAction {
     records: IRecord[];
 }
 
+export interface IRecordGetAllExAction {
+    type: ProgressActionTypes.GET_ALL_EX;
+    exercises: {[key: number]: IExercise}
+}
+
 /* 
 Combine the action types with a union (we assume there are more)
 example: export type ProgressActions = IGetAllAction | IGetOneAction ... 
 */
-export type ProgressActions = IRecordGetAllAction;
+export type ProgressActions = IRecordGetAllAction | IRecordGetAllExAction;
 
 /* Get All Action
 <Promise<Return Type>, State Interface, Type of Param, Type of Action> */
@@ -46,6 +52,27 @@ export const getAllRecords: ActionCreator<
         records: response.data,
         type: ProgressActionTypes.GET_ALL,
       });
+      const exerRes = await axios.get(
+        `${apiURL}/exercise/all`,
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+    );
+
+    let exercises:{[key: number]: IExercise} = {};
+    exerRes.data.forEach((ex:IExercise) => {
+        if (!exercises[ex.id]) {
+            exercises[ex.id] = ex;
+        }
+    })
+    
+    dispatch({
+        type: ProgressActionTypes.GET_ALL_EX,
+        exercises,
+    });
+    
     } catch (err) {
       console.error(err);
     }

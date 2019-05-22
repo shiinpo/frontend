@@ -9,10 +9,6 @@ interface IProps {
 }
 
 class Category extends React.Component<IProps> {
-    componentDidMount() {
-        this.props.getAllCategories()
-    }
-
     public render() {
         return (
             <>

@@ -12,11 +12,6 @@ export interface IProgressProps {
 
 class Progress extends React.Component<IProgressProps, any> {
 
-    componentDidMount() {
-        const { getAllRecords } = this.props;
-        getAllRecords();
-    }
-
     sortDates = (a:IChartPoint, b:IChartPoint):number => {
         return new Date(a.x).getTime() - new Date(b.x).getTime();
     }

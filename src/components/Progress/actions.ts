@@ -52,26 +52,6 @@ export const getAllRecords: ActionCreator<
         records: response.data,
         type: ProgressActionTypes.GET_ALL,
       });
-      const exerRes = await axios.get(
-        `${apiURL}/exercise/all`,
-        {
-          headers: {
-            Authorization: token
-          }
-        }
-    );
-
-    let exercises:{[key: number]: IExercise} = {};
-    exerRes.data.forEach((ex:IExercise) => {
-        if (!exercises[ex.id]) {
-            exercises[ex.id] = ex;
-        }
-    })
-    
-    dispatch({
-        type: ProgressActionTypes.GET_ALL_EX,
-        exercises,
-    });
     
     } catch (err) {
       console.error(err);

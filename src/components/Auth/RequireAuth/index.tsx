@@ -1,14 +1,18 @@
 import React from 'react';
 import jwtDecode from 'jwt-decode';
 import { Redirect } from 'react-router-dom';
-import { IDecodedToken, setUserInfo } from '../actions'
+import { connect } from 'react-redux';
+import { IDecodedToken, getUserInfo } from '../actions'
+import { IAppState } from '../../../store/Store';
 
 interface IProps {
     location: any,
+    id: number
+    getUserInfo: typeof getUserInfo
 }
 
 const RequireAuthHOC = <P extends object>(Component: React.ComponentType<P>) => {
-    class RequireAuthentication extends React.Component<P & IProps> {
+    class RequireAuthentication extends React.Component<any> {
         render() {
             // const { location }= this.props;
             const token = localStorage.getItem('token');
@@ -26,14 +30,23 @@ const RequireAuthHOC = <P extends object>(Component: React.ComponentType<P>) => 
                     return <Redirect to="/login" push/>
                 }
 
-                return <Component {...this.props as P}/>
+                if (this.props.id === 0) {
+                    this.props.getUserInfo();
+                }
+
+                const { location, id, getUserInfo, ...newProps } = this.props; 
+
+                return <Component {...newProps as P}/>
             }
 
             return <Redirect to="/login" push/>
         }
     };
 
-    return RequireAuthentication;
+    const mapStateToProps = (state:IAppState) => ({ id: state.auth.id });
+    const mapDispatchToProps = { getUserInfo };
+    
+    return connect(mapStateToProps, mapDispatchToProps)(RequireAuthentication);
 }
 
 

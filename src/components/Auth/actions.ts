@@ -9,6 +9,10 @@ import { apiURL } from '../../store/Store'
 
 // Import Auth Typing
 import { IAuthState } from './reducer';
+import { IExercise } from '../Progress/reducer';
+import { ProgressActionTypes } from '../Progress/actions';
+import { ICategoryState, ICategory } from '../Category/reducer';
+import { CategoryActionTypes } from '../Category/actions';
 
 // Create Action Constants
 export enum AuthActionTypes {
@@ -79,20 +83,7 @@ export const login: ActionCreator<ThunkAction<Promise<any>, IAuthState, null, IA
             );
 
             if (response.status === 200) {
-                const { token } = response.data;
-
-                localStorage.setItem('token', token);
-
-                const decoded:IDecodedToken = jwtDecode(token);
-                const { username, email, id } = decoded;
-
-                dispatch({
-                    type: AuthActionTypes.LOGIN_SUCCESFUL,
-                    username,
-                    email,
-                    id
-                });
-
+                setUserInfo(response.data, dispatch);
             } else {
                 dispatch({
                     type: AuthActionTypes.LOGIN_FAILURE,
@@ -149,12 +140,68 @@ export const logout = () => {
     return ({ type: AuthActionTypes.LOGOUT })
 }
 
-export const setUserInfo = (userInfo:IDecodedToken) => {
-    const { username, email, id } = userInfo;
-    return {
+export const setUserInfo = (userInfo:any, dispatch:Dispatch) => {
+    const { token, user, records, categories, exercises } = userInfo;
+    const { username, email, id } = user;
+    localStorage.setItem('token', token);
+
+    let exer:{[key: number]: IExercise} = {};
+    exercises.forEach((ex:IExercise) => {
+        if (!exer[ex.id]) {
+            exer[ex.id] = ex;
+        }
+    })
+
+    let categoriesObj:ICategoryState = {};
+    categories.forEach((cat:ICategory) => {
+        categoriesObj[cat.id] = cat
+    });
+    
+    dispatch({
         type: AuthActionTypes.LOGIN_SUCCESFUL,
         username,
         email,
         id
+    });
+    dispatch({
+        records,
+        type: ProgressActionTypes.GET_ALL,
+    });
+    dispatch({
+        type: ProgressActionTypes.GET_ALL_EX,
+        exercises: exer,
+    });
+    dispatch({
+        type: CategoryActionTypes.GET_ALL_CATEGORIES,
+        categories: categories,
+    });
+}
+
+export const getUserInfo: ActionCreator<ThunkAction<Promise<any>, IAuthState, null, IAuthLoginSuccessAction>
+> = () => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: AuthActionTypes.AUTH_LOADING});
+            const token = localStorage.getItem("token");
+            const response = await axios.get(
+                `${apiURL}/user`,
+                {
+                  headers: {
+                    Authorization: token
+                  }
+                }
+              );
+
+            if (response.status === 200) {
+                setUserInfo(response.data, dispatch);
+            } else {
+                dispatch({
+                    type: AuthActionTypes.LOGIN_FAILURE,
+                });
+            }
+
+        } catch (err) {
+            console.error(err);
+        }
     };
 }

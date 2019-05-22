@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { IAppState } from '../../store/Store';
 import { getAllRecords } from './actions';
 import { IProgressState, IRecord } from './reducer';
-import Chart from './Chart';
+import Chart, { IChartData, IChartPoint } from './Chart';
 
 export interface IProgressProps {
     progress: IProgressState,
@@ -17,8 +17,38 @@ class Progress extends React.Component<IProgressProps, any> {
         getAllRecords();
     }
 
-    constructData = (records:IRecord[]) => {
+    sortDates = (a:IChartPoint, b:IChartPoint):number => {
+        return new Date(a.x).getTime() - new Date(b.x).getTime();
+    }
 
+    constructData = ():IChartData[] => {
+        const { records, exercises } = this.props.progress;
+
+        let obj:{[key: number]: IChartPoint[]} = {};
+        records.forEach(record => {
+            const point:IChartPoint = {
+                x: record.date_performed.split('T')[0], 
+                y: record.max
+            }
+            if(obj[record.exercise_id]){
+                obj[record.exercise_id].push(point)
+            } else {
+                obj[record.exercise_id] = [point]
+            }
+        })
+
+        let chartData:IChartData[] = Object.keys(obj).map((key: string) => {
+            const data:IChartPoint[] = obj[Number(key)].sort(this.sortDates);
+            const { name, id } = exercises[Number(key)];
+            return {
+                data,
+                exercise_id: id,
+                id: name
+            }
+        })
+
+        console.log(chartData);
+        return chartData;
     }
 
     public render() {
@@ -26,7 +56,9 @@ class Progress extends React.Component<IProgressProps, any> {
         return (
         <div>
             <h1>Progress</h1>
-            <Chart />
+            {
+                Object.keys(progress.exercises).length && progress.records && <Chart data={this.constructData()}/>
+            }
             {
                 progress.records && progress.records.map(record => {
                     return (

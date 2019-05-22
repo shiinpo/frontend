@@ -10,27 +10,20 @@ export interface ICategory {
     name: string
 }
 
-// Define the Catergory state
 export interface ICategoryState {
-    readonly categories: ICategory[];
+    [key: number]: ICategory
 }
 
 // Define the initialState
-const initialCategoryState: ICategoryState = {
-    categories: [],
-}
+const initialCategoryState: ICategoryState = {}
 
 export const categoryReducer: Reducer<ICategoryState, CategoryActions> = (
     state = initialCategoryState,
     action
 ) => {
     switch (action.type) {
-        case CategoryActionTypes.GET_ALL: {
-            return {
-                ...state,
-                categories: action.categories,
-            }
-        }
+        case CategoryActionTypes.GET_ALL_CATEGORIES:
+            return action.categories;
         default:
             return state;
     }

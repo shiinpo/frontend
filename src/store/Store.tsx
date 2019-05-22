@@ -16,6 +16,7 @@ import thunk from 'redux-thunk';
 // Import reducers and state type
 import {
     categoryReducer,
+    ICategory,
     ICategoryState,
 } from '../components/Category/reducer';
 import {
@@ -30,7 +31,7 @@ import {
 // Create an interface for the application state
 export interface IAppState {
     auth: IAuthState,
-    categoryState: ICategoryState,
+    categories: ICategoryState,
     router: RouterState,
     progress: IProgressState,
 }
@@ -44,7 +45,7 @@ export { apiURL, history };
 // Create the root reducer
 const rootReducer = combineReducers<IAppState>({
     auth: authReducer,
-    categoryState: categoryReducer,
+    categories: categoryReducer,
     router: connectRouter(history),
     progress: progressReducer,
 });

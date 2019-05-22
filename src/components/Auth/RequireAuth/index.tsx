@@ -16,14 +16,15 @@ const RequireAuthHOC = <P extends object>(Component: React.ComponentType<P>) => 
             if (token) {
                 const decoded:IDecodedToken = jwtDecode(token);
 
-                if (!decoded.username) {
+                if (Date.now() / 1000 > decoded.exp) {
                     localStorage.removeItem("token")
                     return <Redirect to="/login" push/>
                 }
 
-                // if (userID === 0) {
-                //     dispatch(setUserInfo(decoded));
-                // }
+                if (!decoded.username) {
+                    localStorage.removeItem("token")
+                    return <Redirect to="/login" push/>
+                }
 
                 return <Component {...this.props as P}/>
             }

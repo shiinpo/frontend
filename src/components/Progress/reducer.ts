@@ -33,7 +33,7 @@ export const progressReducer: Reducer<IProgressState, ProgressActions> = (
         case ProgressActionTypes.GET_ALL: {
             return {
                 ...state,
-                records: action.records,
+                records: action.records.sort((a, b) => a.exercise_id - b.exercise_id || a.max - b.max),
             }
         }
         default:

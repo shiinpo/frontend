@@ -2,7 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../../store/Store';
 import { getAllRecords } from './actions';
-import { IProgressState } from './reducer';
+import { IProgressState, IRecord } from './reducer';
+import Chart from './Chart';
 
 export interface IProgressProps {
     progress: IProgressState,
@@ -16,15 +17,20 @@ class Progress extends React.Component<IProgressProps, any> {
         getAllRecords();
     }
 
+    constructData = (records:IRecord[]) => {
+
+    }
+
     public render() {
         const { progress } = this.props
         return (
         <div>
             <h1>Progress</h1>
+            <Chart />
             {
                 progress.records && progress.records.map(record => {
                     return (
-                        <div>
+                        <div key={record.id}>
                             { record.max }
                         </div>
                     )

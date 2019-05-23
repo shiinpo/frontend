@@ -28,6 +28,7 @@ declare module '@nivo/line' {
         enableDotLabel: boolean
         enableStackTooltip: boolean
         colorBy: typeof colorBy
+        tooltip: any
         // pointLabel: string
     }
 }
@@ -85,12 +86,37 @@ const Chart: React.FunctionComponent<IChartProps> = (props: IChartProps) => {
                     useMesh={true}
                     isInteractive={true}
                     animate={true}
-                    motionStiffness={150}
-                    motionDamping={15}
+                    // motionStiffness={150}
+                    // motionDamping={15}
                     pointColor={'white'}
                     pointSize={10}
                     pointBorderWidth={3}
                     pointBorderColor={'black'}
+                    enableCrosshair={false}
+                    tooltip={({point}:any) => {
+                        // point:
+                        //     borderColor: "black"
+                        //     color: "white"
+                        //     data: {x: Wed May 29 2019 00:00:00 GMT-0400 (Eastern Daylight Time), y: 415, xFormatted: "2019-05-29", yFormatted: 415}
+                        //     id: "DEADLIFT.2"
+                        //     index: 12
+                        //     serieColor: "#f1e15b"
+                        //     serieId: "DEADLIFT"
+                        //     x: 232
+                        //     y: 60
+                        return (
+                            <div
+                                style={{
+                                    background: 'white',
+                                    padding: '9px 12px',
+                                    border: '1px solid #ccc',
+                                }}
+                            >
+                                <div>{point.serieId}</div>
+                                <div>{point.x}lbs</div>
+                            </div>
+                        )
+                    }}
 
                     legends={[
                         {

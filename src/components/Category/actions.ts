@@ -11,13 +11,13 @@ import { apiURL } from '../../store/Store'
 
 // Create Action Constants
 export enum CategoryActionTypes {
-    GET_ALL = 'GET_ALL',
+    GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES',
 }
 
 // Interface for Get All Action Type
 export interface ICategoryGetAllAction {
-    type: CategoryActionTypes.GET_ALL;
-    categories: ICategory[];
+    type: CategoryActionTypes.GET_ALL_CATEGORIES;
+    categories: ICategoryState;
 }
 
 /* 
@@ -42,9 +42,15 @@ export const getAllCategories: ActionCreator<
           }
         }
       );
+
+      let categories:ICategoryState = {};
+      response.data.forEach((cat:ICategory) => {
+        categories[cat.id] = cat
+      });
+
       dispatch({
-        categories: response.data,
-        type: CategoryActionTypes.GET_ALL,
+        type: CategoryActionTypes.GET_ALL_CATEGORIES,
+        categories: categories,
       });
     } catch (err) {
       console.error(err);

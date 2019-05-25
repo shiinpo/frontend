@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../../../store/Store';
-import { ICategory } from '../reducer';
+import { ICategoryState } from '../reducer';
 
 // Create the containers interface
 interface IProps {
-  categories: ICategory[];
+  categories: ICategoryState;
 }
 
 class CategoryList extends React.Component<IProps> {
@@ -13,11 +13,12 @@ class CategoryList extends React.Component<IProps> {
     const { categories } = this.props;
     return (
       <div className="name-container">
-        {categories &&
-          categories.map(category => {
+        {categories[1] &&
+          Object.keys(categories).map((key:string) => {
+            const { id, name} = categories[Number(key)];
             return (
-              <div key={category.id} className="name">
-                {category.name}
+              <div key={id} className="name">
+                {name}
               </div>
             );
           })}
@@ -29,7 +30,7 @@ class CategoryList extends React.Component<IProps> {
 // Grab the category from the store and make them available on props
 const mapStateToProps = (store: IAppState) => {
   return {
-    categories: store.categoryState.categories,
+    categories: store.categories,
   };
 };
 
